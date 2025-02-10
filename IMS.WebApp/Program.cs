@@ -19,6 +19,7 @@ builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 // For this method, AddTransient, this object is created everytime when the program requires it. Whether it's a class or razor
 // component that needs the usecase, it's going to create a new object.
 builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
+builder.Services.AddTransient<IAddInventoryUseCase, AddInventoryUseCase>();
 
 var app = builder.Build();
 

@@ -9,8 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents();
 
-builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
+// This is where we register the dependencies inside the dependency injection container (which is the service collection)
+// We use different methods (Singleton, Transient, etc.) to indicate our DI lifetime.
 
+// For this method, AddSingleton, means that the first time that this object is required it will create it. Than, that info will be
+// stored within the application. Which means, this object will leave as long as the application or until it is disposed. Which means
+// the next time the application needs InventoryRepository, it won't need to be created again.
+builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
+// For this method, AddTransient, this object is created everytime when the program requires it. Whether it's a class or razor
+// component that needs the usecase, it's going to create a new object.
 builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
 
 var app = builder.Build();

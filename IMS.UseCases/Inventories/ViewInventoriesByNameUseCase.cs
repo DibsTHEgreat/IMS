@@ -12,7 +12,8 @@ namespace IMS.UseCases.Inventories
     public class ViewInventoriesByNameUseCase : IViewInventoriesByNameUseCase
     {
         private readonly IInventoryRepository inventoryRepository;
-
+        
+        //Constructure dependency injection
         public ViewInventoriesByNameUseCase(IInventoryRepository inventoryRepository)
         {
             this.inventoryRepository = inventoryRepository;

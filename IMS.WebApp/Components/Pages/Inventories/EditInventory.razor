@@ -1,0 +1,16 @@
+﻿@page "/editinventory/{invId:int}"
+
+<h3>EditInventory</h3>
+<br />
+<br />
+
+@InvId
+
+
+@code {
+	// this routing parameter just needs to match the spelling in the page directory, but is not case_sensitive 
+	// also needs to be the same datatype
+	[Parameter]
+	public int InvId { get; set; }
+
+}

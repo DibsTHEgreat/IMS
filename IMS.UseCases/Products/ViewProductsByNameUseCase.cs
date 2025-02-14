@@ -22,7 +22,7 @@ namespace IMS.UseCases.Inventories
 
         public async Task<IEnumerable<Product>> ExecuteAsync(string name = "")
         {
-            return await productRepository.GetInventoriesByNameAsync(name);
+            return await productRepository.GetProductsByNameAsync(name);
         }
 
     }

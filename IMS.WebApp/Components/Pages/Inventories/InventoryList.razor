@@ -3,16 +3,8 @@
 <h3>Inventory List</h3>
 <br />
 <br />
-<EditForm Model="inventoryNameToSearch" FormName="formSearchInv">
-	<div class="input-group">
-		<InputText
-			class="form-control"
-			placeholder="Type inventory name here to search"
-			@bind-Value="this.inventoryNameToSearch">
-		</InputText>
-		<button type="submit" class="btn-success input-group-text">Search</button>
-	</div>
-</EditForm>
+<SearchComponent OnSearch="HandleSearch"></SearchComponent>
+<br />
 
 <InventoryListComponent SearchInventoryFilter="@inventoryNameToSearch"></InventoryListComponent>
 <br />
@@ -21,6 +13,14 @@
 
 
 @code {
-	[SupplyParameterFromForm]
-	private string inventoryNameToSearch { get; set; } = string.Empty;
+	private string? inventoryNameToSearch;
+
+	// Function is located in the parent component. We supply this function as a component parameter to the child component.
+	// In this situation it is SearchComponent, inside the child component, when the form is submitted. We are going to trigger
+	// the Search function that is OnSubmit. Explanation con't in child component.
+	private void HandleSearch(string searchFilter)
+	{
+		// When this function is triggered by the child component, we want to change the value of SearchInventoryFilter.
+		inventoryNameToSearch = searchFilter;
+	}
 }

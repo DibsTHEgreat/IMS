@@ -1,0 +1,27 @@
+﻿<EditForm Model="searchFilter" FormName="formSearchInv" OnSubmit="Search">
+	<div class="input-group">
+		<InputText class="form-control"
+		placeholder="Type inventory name here to search"
+		@bind-Value="this.searchFilter">
+		</InputText>
+		<button type="submit" class="btn-success input-group-text">Search</button>
+	</div>
+</EditForm>
+
+@code {
+	[SupplyParameterFromForm]
+	private string searchFilter { get; set; } = string.Empty;
+
+	[Parameter]
+	public EventCallback<string> OnSearch { get; set; }
+
+	// As mentioned before, when the form is submitted we are going to trigger the InvokeAsync event callback. Since the 
+	// event callback is exactly the same function from the parent component, when the InvokeAsync function is triggered
+	// the function in the parent component will also be triggered. The searchFilter variable which is supplied from the form and put
+	// as a parameter for the InvokeAsync func, will be the same variable in the parent component.
+	private void Search()
+	{
+		OnSearch.InvokeAsync(searchFilter);
+	}
+
+}

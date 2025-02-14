@@ -1,0 +1,26 @@
+﻿@page "/products"
+
+<h3>Product List</h3>
+<br />
+<br />
+<SearchComponent OnSearch="HandleSearch"></SearchComponent>
+<br />
+
+<ProductListComponent SearchProductsFilter="@productNameToSearch"></ProductListComponent>
+<br />
+
+<a href="/addproduct" class="btn btn-primary">Add Product</a>
+
+
+@code {
+	private string? productNameToSearch;
+
+	// Function is located in the parent component. We supply this function as a component parameter to the child component.
+	// In this situation it is SearchComponent, inside the child component, when the form is submitted. We are going to trigger
+	// the Search function that is OnSubmit. Explanation con't in child component.
+	private void HandleSearch(string searchFilter)
+	{
+		// When this function is triggered by the child component, we want to change the value of SearchInventoryFilter.
+		productNameToSearch = searchFilter;
+	}
+}

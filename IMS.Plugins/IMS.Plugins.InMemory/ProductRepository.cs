@@ -49,7 +49,7 @@ namespace IMS.Plugins.InMemory
             return Task.CompletedTask;
         }
 
-        public async Task<Product> GetProductsByIdAsync(int productId)
+        public async Task<Product> GetProductByIdAsync(int productId)
         {
             return await Task.FromResult(_products.First(x => x.ProductId == productId));
         }

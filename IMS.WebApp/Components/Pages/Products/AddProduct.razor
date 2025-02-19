@@ -13,12 +13,12 @@
 	since we are actually not going to POST anything when the submit button is clicked.
 
 	In Blazor SSR, there would be an error pop-up if we didn't include the formName.
-*@
+ *@
 <EditForm Model="product" OnValidSubmit="Save">
 	<DataAnnotationsValidator></DataAnnotationsValidator>
 
 	<div class="form-group">
-		<label for="name">Product Name</label>
+		<label for="name">Product N ame</label>
 		<InputText 
 			id="name"
 			@bind-Value="product.ProductName"

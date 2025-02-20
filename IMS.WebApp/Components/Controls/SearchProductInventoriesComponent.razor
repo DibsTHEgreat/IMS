@@ -4,7 +4,7 @@
 	@*You don't need InputText if you are working outside of EditForm.*@
 	<input class="form-control"
 	placeholder="Type inventory name here to search"
-	@bind-value="this.searchFilter">
+	@bind-value="this.searchFilter" @bind-value:event="oninput">
 	</input>
 	<button type="button" class="btn-success input-group-text" @onclick="HandleSearch">Search</button>
 </div>
@@ -26,12 +26,33 @@
 @code {
 	// We are doing a two-way data binding to bind this state variable to the UI. Doing a binding between searchFilter
 	// state variable and the UI Input field.
-	private string searchFilter = string.Empty;
+	private string _searchFilter;
+	private string searchFilter 
+	{ 
+		get => _searchFilter; 
+		set 
+		{
+			_searchFilter = value;
+
+			// Even though this function is a async call, the return value comes back really fast. The UI'
+			// is rendered after the state variable change. 
+			// If the DB is huge the call can take a long time, resulting in the rendering of the HTML to happen
+			// before the inventory is actually retrieved.
+			HandleSearch();
+		}
+	}
+
 	private List<Inventory> inventories = new List<Inventory>();
 
 	private async Task HandleSearch()
 	{
+		// Left this line of code here to simulate a long running DB call
+		await Task.Delay(1000);
+
 		inventories = (await ViewInventoriesByNameUseCase.ExecuteAsync(this.searchFilter)).ToList();
+
+		// In the event of a huge DB and the UI is rendered before the call is retrieved call this
+		StateHasChanged();
 	}
 	
 }

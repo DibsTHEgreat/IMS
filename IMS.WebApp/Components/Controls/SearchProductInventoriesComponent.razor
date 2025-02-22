@@ -15,7 +15,10 @@
 		<ul>
 			@foreach (var inv in inventories)
 			{
-				<li @key="inv.InventoryId">
+				<li 
+				@key="inv.InventoryId" 
+				@onclick="() => { HandleSelectInventory(inv); }"
+				>
 					@inv.InventoryName
 				</li>
 			}
@@ -24,6 +27,9 @@
 }
 
 @code {
+	[Parameter]
+	public EventCallback<Inventory> OnInventorySelected { get; set; }
+
 	// We are doing a two-way data binding to bind this state variable to the UI. Doing a binding between searchFilter
 	// state variable and the UI Input field.
 	private string _searchFilter;
@@ -54,5 +60,10 @@
 		// In the event of a huge DB and the UI is rendered before the call is retrieved call this
 		StateHasChanged();
 	}
-	
+
+	private async Task HandleSelectInventory(Inventory inventory)
+	{
+		await OnInventorySelected.InvokeAsync(inventory);
+		inventories.Clear();
+	}
 }

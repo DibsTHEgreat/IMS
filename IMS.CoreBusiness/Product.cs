@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMS.CoreBusiness.Validations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace IMS.CoreBusiness
     {
         public int ProductId { get; set; }
 
+        // These validations are called DataAnnotations (DA) which is independent of ASP.NET Core
+        // Whether you are developing Blazor, or Razor pages, MVC, or WebAPI you can use DA.
         [Required]
         [StringLength(150)]
         public string ProductName { get; set; } = string.Empty;
@@ -21,6 +24,7 @@ namespace IMS.CoreBusiness
         [Range(0, int.MaxValue, ErrorMessage = "Price must be greater or equal to 0.")]
         public double Price { get; set; }
 
+        [Product_EnsurePriceIsGreaterThanInvetoriesCost]
         public List<ProductInventory> ProductsInventories { get; set; } = new List<ProductInventory>();
 
         public void AddInventory(Inventory inventory)

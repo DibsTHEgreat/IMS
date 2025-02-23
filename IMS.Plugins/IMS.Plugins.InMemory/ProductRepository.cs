@@ -49,9 +49,48 @@ namespace IMS.Plugins.InMemory
             return Task.CompletedTask;
         }
 
-        public async Task<Product> GetProductByIdAsync(int productId)
+        public async Task<Product?> GetProductByIdAsync(int productId)
         {
-            return await Task.FromResult(_products.First(x => x.ProductId == productId));
+            var prod = _products.FirstOrDefault(x => x.ProductId == productId);
+
+            var newProd = new Product();
+
+            if (prod != null)
+            {
+                newProd.ProductId = productId;
+                newProd.ProductName = prod.ProductName;
+                newProd.Quantity = prod.Quantity;
+                newProd.Price = prod.Price;
+                // Need to iterate through the list
+                newProd.ProductsInventories = new List<ProductInventory>();
+                
+                // This approach is done to maintain the In-memory data-store consistency
+                if (prod.ProductsInventories != null && prod.ProductsInventories.Count > 0)
+                {
+                    foreach(var prodInv in prod.ProductsInventories)
+                    {
+                        var newProdInv = new ProductInventory
+                        { 
+                            InventoryId = prodInv.InventoryId,
+                            ProductId = prodInv.ProductId,
+                            Product = prod,
+                            Inventory = new Inventory(),
+                            InventoryQuantity = prodInv.InventoryQuantity,
+                        };
+                        
+                        if (prodInv.Inventory != null)
+                        {
+                            newProdInv.Inventory.InventoryId = prodInv.Inventory.InventoryId;
+                            newProdInv.Inventory.InventoryName = prodInv.Inventory.InventoryName;
+                            newProdInv.Inventory.Price = prodInv.Inventory.Price;
+                            newProdInv.Inventory.Quantity = prodInv.Inventory.Quantity;
+                        }
+
+                        newProd.ProductsInventories.Add(newProdInv);
+                    }
+
+                }
+            }
         }
 
         public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)

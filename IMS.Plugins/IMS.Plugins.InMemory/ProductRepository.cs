@@ -88,9 +88,10 @@ namespace IMS.Plugins.InMemory
 
                         newProd.ProductsInventories.Add(newProdInv);
                     }
-
                 }
             }
+
+            return await Task.FromResult(newProd);
         }
 
         public async Task<IEnumerable<Product>> GetProductsByNameAsync(string name)
@@ -115,6 +116,7 @@ namespace IMS.Plugins.InMemory
                 proToUpdate.ProductName = product.ProductName;
                 proToUpdate.Quantity = product.Quantity;
                 proToUpdate.Price = product.Price;
+                proToUpdate.ProductsInventories = product.ProductsInventories;
             }
 
             return Task.CompletedTask;

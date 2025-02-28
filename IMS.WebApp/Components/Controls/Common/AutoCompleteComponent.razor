@@ -10,14 +10,30 @@
 	@bind-value:event="oninput" />
 </div>
 
+@if (searchResults is not null && searchResults.Count > 0)
+{
+	<div class="search-result">
+		<ul>
+			@foreach (var item in searchResults)
+			{
+				<li @key="item.Id">
+					@item.Name
+				</li>
+			}
+		</ul>
+	</div>
+}
+
 @code {
 
 	[Parameter]
 	public string Label { get; set; } = string.Empty;
 
+	// Function Delegate --> A function pointer
 	[Parameter]
 	public Func<string, List<ItemViewModel>>? SearchFunction { get; set; }
 
+	private List<ItemViewModel>? searchResults = null;
 
 	private string _userInput = string.Empty;
 
@@ -28,6 +44,10 @@
 		{
 			_userInput = value;
 
+			if (!string.IsNullOrWhiteSpace(_userInput) && SearchFunction != null)
+			{
+				searchResults = SearchFunction(_userInput);
+			}
 		}
 	}
 

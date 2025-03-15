@@ -12,5 +12,9 @@ div ul {
 }
 
 div ul li {
-    cursor: pointer
+    cursor: pointer;
+}
+
+.selected {
+    background-color:antiquewhite;
 }

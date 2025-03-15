@@ -16,8 +16,8 @@
 			@foreach (var inv in inventories)
 			{
 				<li 
-				@key="inv.InventoryId" 
-				@onclick="() => { HandleSelectInventory(inv); }"
+					@key="inv.InventoryId" 
+					@onclick="() => { HandleSelectInventory(inv); }"
 				>
 					@inv.InventoryName
 				</li>

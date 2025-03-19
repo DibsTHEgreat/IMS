@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IMS.UseCases.Activities
 {
-    public class ProduceProductUseCase
+    public class ProduceProductUseCase : IProduceProductUseCase
     {
         private readonly IProductTransactionRepository productTransactionRepository;
         private readonly IProductRepository productRepository;

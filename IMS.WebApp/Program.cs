@@ -23,6 +23,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<IInventoryTransactionRepository, InventoryTransactionRepository>();
+builder.Services.AddSingleton<IProductTransactionRepository, ProductTransactionRepository>();
 
 // For this method, AddTransient, this object is created everytime when the program requires it. Whether it's a class or razor
 // component that needs the usecase, it's going to create a new object.
@@ -39,6 +40,7 @@ builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
 builder.Services.AddTransient<IEditProductUseCase, EditProductUseCase>();
 
 builder.Services.AddTransient<IPurchaseInventoryUseCase, PurchaseInventoryUseCase>();
+builder.Services.AddTransient<IProduceProductUseCase, ProduceProductUseCase>();
 
 var app = builder.Build();
 

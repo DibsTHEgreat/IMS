@@ -12,6 +12,22 @@ namespace IMS.Plugins.InMemory
     {
         public List<InventoryTransaction> _inventoryTransactions = new List<InventoryTransaction>();
 
+        public void ProduceAsync(string productionNumber, Inventory inventory, int quantityConsumed, string createdBy, double price)
+        {
+            this._inventoryTransactions.Add(new InventoryTransaction
+            {
+                ProductionNumber = productionNumber,
+                Inventory = inventory,
+                InventoryId = inventory.InventoryId,
+                QuantityBefore = inventory.Quantity,
+                ActivityType = InventoryTransactionType.ProduceProducts,
+                QuantityAfter = inventory.Quantity - quantityConsumed,
+                TransactionDate = DateTime.Now,
+                CreatedBy = createdBy,
+                UnitPrice = price
+            });
+        }
+
         public void PurchaseAsync(string poNumber, Inventory inventory, int quantity, string createdBy, double price)
         {
             this._inventoryTransactions.Add(new InventoryTransaction

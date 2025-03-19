@@ -14,6 +14,8 @@ namespace IMS.CoreBusiness
         
         public string PONumber { get; set; } = string.Empty;
 
+        public string ProductionNumber { get; set; } = string.Empty;
+
         [Required]
         public int InventoryId { get; set; }
 

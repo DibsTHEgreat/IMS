@@ -4,6 +4,6 @@ namespace IMS.UseCases.PluginInterfaces
 {
     public interface IProductTransactionRepository
     {
-        Task ProduceAsync(Product product, int quantity, string createdBy);
+        Task ProduceAsync(string productionNumber, Product product, int quantity, double? price, string createdBy);
     }
 }

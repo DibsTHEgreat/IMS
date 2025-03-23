@@ -27,9 +27,11 @@ namespace IMS.Plugins.InMemory
             this.inventoryRepository = inventoryRepository;
         }
 
-        public async Task ProduceAsync(string productionNumber, Product product, int quantity, double price, string createdBy)
+        public async Task ProduceAsync(string productionNumber, Product product, int quantity, double? price, string createdBy)
         {
             var prod = await this.productRepository.GetProductByIdAsync(product.ProductId);
+
+
             if (prod != null) 
             {
                 foreach(var pi in prod.ProductsInventories)
@@ -37,7 +39,7 @@ namespace IMS.Plugins.InMemory
 
                     if (pi.Inventory != null)
                     {
-                        // add inventory transaction
+                        // add product transaction
                         this.inventoryTransactionRepository.ProduceAsync(productionNumber,
                             pi.Inventory,
                             pi.InventoryQuantity * quantity,
@@ -63,12 +65,6 @@ namespace IMS.Plugins.InMemory
                 TransactionDate = DateTime.Now,
                 CreatedBy = createdBy,
             });
-
-        }
-
-        public Task ProduceAsync(Product product, int quantity, string createdBy)
-        {
-            throw new NotImplementedException();
         }
     }
 }

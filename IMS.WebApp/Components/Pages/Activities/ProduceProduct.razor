@@ -25,8 +25,8 @@
 		<div class="card-body">
 			<div class="form-group">
 				<AutoCompleteComponent Label="Product to Produce"
-									   SearchFunction="SearchProduct"
-									   OnItemSelected="HandleItemSelected"></AutoCompleteComponent>
+				SearchFunction="SearchProduct"
+				OnItemSelected="HandleItemSelected"></AutoCompleteComponent>
 			</div>
 		</div>
 	</div>
@@ -56,7 +56,8 @@
 	{
 		selectedProduct = await ViewProductByIdUseCase.ExecuteAsync(item.Id);
 
-		this.produceViewModel.ProductId = item.Id;
+		produceViewModel.ProductId = item.Id;
+		produceViewModel.Product = this.selectedProduct;
 	}
 
 	private async Task Produce()

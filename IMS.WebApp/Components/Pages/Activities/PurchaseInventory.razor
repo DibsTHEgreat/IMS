@@ -1,8 +1,8 @@
 ﻿@page "/purchase"
 
-@using static IMS.WebApp.Components.Controls.Common.AutoCompleteComponent
-
 @rendermode InteractiveServer
+
+@inject IJSRuntime JSRuntime
 
 @inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
 @inject IViewInventoryByIdUseCase ViewInventoryByIdUseCase
@@ -11,7 +11,7 @@
 <h3> Purchase Inventory</h3>
 <br />
 
-<EditForm Model="purchaseViewModel" OnValidSubmit="Purchase">
+<EditForm id="purchase-form" Model="purchaseViewModel" OnValidSubmit="Purchase">
 	<DataAnnotationsValidator></DataAnnotationsValidator>
 	<ValidationSummary></ValidationSummary>
 
@@ -52,10 +52,23 @@
 </EditForm>
 
 @code {
-	// this is a seperate branch
 	private PurchaseViewModel purchaseViewModel = new PurchaseViewModel();
 
 	private Inventory? selectedInventory = null;
+
+	// Life cycle events are executed on the server first, and then page render
+	// True for both Blazor SSR & Blazor Server Interactivity, as well as WebAssembly Interactivity
+	// You cannot put Javascript Interop in any other place except for on AfterRender
+	// OnAfterRender means everything is already rendered, which means it's already in the browser
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRenderAsync(firstRender);
+
+		if (firstRender)
+		{
+			JSRuntime.InvokeVoidAsync("preventFormSubmission", "purchase-form");
+		}
+	}
 
 	public List<ItemViewModel>? SearchInventory(string input)
 	{

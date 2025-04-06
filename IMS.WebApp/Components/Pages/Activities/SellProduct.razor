@@ -58,9 +58,9 @@
 		}
 	}
 
-	public List<ItemViewModel>? SearchProduct(string input)
+	public async Task<List<ItemViewModel>?> SearchProduct(string input)
 	{
-		var list = ViewProductsByNameUseCase.ExecuteAsync(input).GetAwaiter().GetResult();
+		var list = await ViewProductsByNameUseCase.ExecuteAsync(input);
 
 		if (list is null) return null;
 

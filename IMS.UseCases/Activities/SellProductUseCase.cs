@@ -22,9 +22,9 @@ namespace IMS.UseCases.Activities
             this.productRepository = productRepository;
         }
 
-        public async Task ExecuteAsync(string salesOrderNumber, Product product, int quantity, string doneBy)
+        public async Task ExecuteAsync(string salesOrderNumber, Product product, int quantity, double unitprice, string doneBy)
         {
-            await this.productTransactionRepository.SellProductAsync(salesOrderNumber, product, quantity, doneBy);
+            await this.productTransactionRepository.SellProductAsync(salesOrderNumber, product, quantity, unitprice, doneBy);
 
             product.Quantity -= quantity;
             await this.productRepository.UpdateProductAsync(product);

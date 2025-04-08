@@ -49,3 +49,23 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+/*
+    The CSS will only be applied when the media type is print.
+*/
+@media print {
+
+    body * {
+        visibility: hidden;
+    }
+
+    #printarea, #printarea * {
+        visibility: visible;
+    }
+
+    #printarea {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}

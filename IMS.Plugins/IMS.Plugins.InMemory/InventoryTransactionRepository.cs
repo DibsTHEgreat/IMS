@@ -39,6 +39,7 @@ namespace IMS.Plugins.InMemory
                              Inventory = inv,
                              InventoryTransactionId = it.InventoryTransactionId,
                              PONumber = it.PONumber,
+                             ProductionNumber = it.ProductionNumber,
                              InventoryId = it.InventoryId,
                              QuantityBefore = it.QuantityBefore,
                              ActivityType = it.ActivityType,

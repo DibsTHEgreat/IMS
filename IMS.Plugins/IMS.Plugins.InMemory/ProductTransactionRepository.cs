@@ -83,5 +83,39 @@ namespace IMS.Plugins.InMemory
 
             return Task.CompletedTask;
         }
+
+        public async Task<IEnumerable<ProductTransaction>> GetProductTransactionsAsync(string productName, DateTime? dateFrom, DateTime? dateTo, ProductTransactionType? transactionType)
+        {
+            // this would definitely cause a performance issue with the software, however, we are only calling in-memory data
+            var products = (await productRepository.GetProductsByNameAsync(string.Empty)).ToList();
+
+            // now we use a LinQ query because we are querying the in-memory db
+            var query = from it in this._productTransactions
+                        join product in products on it.ProductId equals product.ProductId
+                        where
+                            (string.IsNullOrEmpty(productName) || product.ProductName.ToLower().IndexOf(productName.ToLower()) >= 0)
+                            &&
+                            (!dateFrom.HasValue || it.TransactionDate >= dateFrom.Value.Date)
+                            &&
+                            (!dateTo.HasValue || it.TransactionDate <= dateTo.Value.Date)
+                            &&
+                            (!transactionType.HasValue || it.ActivityType == transactionType)
+                        select new ProductTransaction
+                        {
+                            Product = product,
+                            ProductTransactionId = it.ProductTransactionId,
+                            SONumber = it.SONumber,
+                            ProductionNumber = it.ProductionNumber,
+                            ProductId = it.ProductId,
+                            QuantityBefore = it.QuantityBefore,
+                            ActivityType = it.ActivityType,
+                            QuantityAfter = it.QuantityAfter,
+                            TransactionDate = it.TransactionDate,
+                            CreatedBy = it.CreatedBy,
+                            UnitPrice = it.UnitPrice
+                        };
+
+            return query;
+        }
     }
 }
